@@ -213,23 +213,27 @@ class VideoPlayer:
             playlist_name: The playlist name.
             video_id: The video_id to be removed.
         """
-        for i in self.playlists[playlist_name.lower()]:
-            videos = self._video_library.get_all_videos()
-            templist = []
+        if playlist_name.lower() in self.playlists:
+            for i in self.playlists[playlist_name.lower()]:
+                videos = self._video_library.get_all_videos()
+                templist = []
 
-            def converttostr(input_seq, seperator):
-                # Join all the strings in list
-                final_str = seperator.join(input_seq)
-                return final_str
+                def converttostr(input_seq, seperator):
+                    # Join all the strings in list
+                    final_str = seperator.join(input_seq)
+                    return final_str
 
-            for vid in videos:
-                if i == vid.video_id:
+                for vid in videos:
+                    if i == vid.video_id:
 
-                    temptitle=vid.title
-                    print(f"Removed video from {playlist_name}: {temptitle}")
-                    self.playlists[playlist_name.lower()].remove(video_id)
+                        temptitle=vid.title
+                        print(f"Removed video from {playlist_name}: {temptitle}")
+                        self.playlists[playlist_name.lower()].remove(video_id)
 
-        if video_id not in self.playlists[playlist_name.lower()]:
+
+        if playlist_name not in self.playlists:
+            print(f"Cannot remove video from {playlist_name}: Playlist does not exist")
+        elif video_id not in self.playlists[playlist_name.lower()]:
             print("Cannot remove video from my_playlist: Video does not exist")
         #self.playlists[playlist_name.lower()].remove(video_id)
 
